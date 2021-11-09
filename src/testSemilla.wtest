@@ -1,0 +1,35 @@
+import plantas.*
+import parcelas.*
+import inta.*
+
+describe "tests de semillas" {
+	var m1 = new Menta(anioDeObtencion = 2000, altura = 1)
+	var m2 = new Menta(anioDeObtencion = 2001, altura = 0.3)
+	var s1 = new Soja(anioDeObtencion = 2009, altura = 0.6)
+	var q1 = new Quinoa(anioDeObtencion = 2010, altura = 1, horasAlSol = 12)
+	var q2 = new Quinoa(anioDeObtencion = 2001, altura = 1, horasAlSol = 9)
+	var p1 = new Ecologica(ancho = 20, largo = 1, horasAlSol = 8, plantas = #{})
+	
+	
+	test "Menta" {
+		assert.that(m1.daSemillas() && m1.espacio() == 3)
+		assert.that(!m2.daSemillas() && m2.espacio() == 0.9)
+	}
+	test "Soja" {
+		assert.that(s1.horasAlSolTolera() == 7 && !s1.daSemillas() && s1.espacio() == 0.3)
+	}
+	test "Quinoa" {
+		assert.that(q1.daSemillas() && q2.daSemillas())
+	}
+	test "Parcelas" {
+		assert.that(p1.superficie() == 20 && p1.cantidadMaximaDePlantas() == 4)
+	}
+	test "Parcelas1" {
+		p1.plantar(m1)
+		p1.plantar(m2)
+		p1.plantar(s1)
+		p1.plantar(q1)
+		p1.plantar(q2)
+		assert.throwsExceptionWithMessage("No se puede plantar", "No se puede plantar")
+	}
+}
